@@ -1,0 +1,25 @@
+body {
+  max-width: 100%;
+  background: url('../src/assets/background.jpg') top center/100% auto fixed
+    no-repeat;
+}
+
+@media (max-width: 1200px) or (orientation: portrait) {
+  body {
+    background: url('../src/assets/background.jpg') top center/auto 100% fixed
+      no-repeat;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0199d9;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
