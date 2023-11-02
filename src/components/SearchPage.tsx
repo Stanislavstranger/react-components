@@ -5,7 +5,10 @@ import {
   searchAnimalsByName,
 } from '../services/LoadingDataService';
 import './SearchPage.css';
-import imgShip from '../assets/1.png';
+import Button from './UI/button/Button';
+import Input from './UI/input/Input';
+import Loader from './UI/loader/Loader';
+import Notification from './UI/notification/Notification';
 
 class SearchPage extends Component<object, SearchPageState> {
   constructor(props: object) {
@@ -64,37 +67,35 @@ class SearchPage extends Component<object, SearchPageState> {
     return (
       <div className="container">
         <div className="top-section">
-          <input
+          <Input
             type="text"
             value={searchTerm}
             placeholder="Select animal"
             onChange={this.handleSearchInputChange}
             onKeyPress={this.handleKeyPress}
-          />
-          <button
+          ></Input>
+
+          <Button
             className="search-button"
             onClick={this.handleSearchClick}
             disabled={loading}
           >
             Search
-          </button>
-          <button
+          </Button>
+
+          <Button
             className="error-button"
             onClick={this.throwError}
             disabled={loading}
           >
             Throw Error
-          </button>
+          </Button>
         </div>
         <div className="bottom-section">
-          {loading && searched && (
-            <div className="ship-container">
-              <img className="ship" src={imgShip}></img>
-            </div>
-          )}
-          {error && <div className="error">Error: {error.message}</div>}
+          {loading && searched && <Loader />}
+          {error && <Notification>Error: {error.message}</Notification>}
           {animals.length === 0 && !loading && !error && searched && (
-            <div className="not-found">Nothing found</div>
+            <Notification>Nothing found</Notification>
           )}
           {animals.map((result) => (
             <div className="card" key={result.uid}>
