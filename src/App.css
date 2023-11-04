@@ -2,6 +2,10 @@ body {
   max-width: 100%;
   background: url('../src/assets/background.jpg') top center/100% auto fixed
     no-repeat;
+  font:
+    normal 16px / normal 'Times New Roman',
+    Times,
+    serif;
 }
 
 @media (max-width: 1200px) or (orientation: portrait) {

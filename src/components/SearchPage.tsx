@@ -1,118 +1,70 @@
-import { ChangeEvent, Component } from 'react';
-import { SearchPageState } from '../models';
+import { useState, useEffect } from 'react';
 import {
   searchAllAnimals,
   searchAnimalsByName,
 } from '../services/LoadingDataService';
 import './SearchPage.css';
+import SearchSection from './UI/searchSection/SearchSection';
+import ResultSection from './UI/resultSection/ResultSection';
 import Button from './UI/button/Button';
-import Input from './UI/input/Input';
-import Loader from './UI/loader/Loader';
-import Notification from './UI/notification/Notification';
 
-class SearchPage extends Component<object, SearchPageState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      searchTerm: localStorage.getItem('searchTerm') || '',
-      animals: [],
-      loading: true,
-      error: null,
-      showError: false,
-      searched: true,
-    };
+const SearchPage = () => {
+  const [animals, setAnimals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-    this.handleSearchClick();
-  }
+  const [searched, setSearched] = useState(true);
 
-  handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
-  };
-
-  handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      this.handleSearchClick();
-    }
-  };
-
-  handleSearchClick = async () => {
-    const { searchTerm } = this.state;
-    localStorage.setItem('searchTerm', searchTerm.trim());
-
-    this.setState({ loading: true, error: null, searched: true });
+  const updateSearchResults = async (term: string) => {
+    setLoading(true);
+    setError(null);
+    setSearched(true);
 
     try {
-      if (searchTerm !== '') {
-        const { animals } = await searchAnimalsByName(searchTerm);
-        this.setState({ animals });
+      let animalsData;
+      if (term !== '') {
+        animalsData = await searchAnimalsByName(term);
       } else {
-        const { animals } = await searchAllAnimals();
-        this.setState({ animals });
+        animalsData = await searchAllAnimals();
       }
+      setAnimals(animalsData.animals);
     } catch (error) {
-      this.setState({ error: error as Error, showError: true });
+      setError(error as Error);
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
 
-  throwError = () => {
+  useEffect(() => {
+    updateSearchResults(localStorage.getItem('searchTerm') || '');
+  }, []);
+
+  const throwError = () => {
     const error = new Error('This is a test error');
-    this.setState({ error, showError: true });
+    setError(error);
   };
 
-  render() {
-    const { searchTerm, loading, error, animals, searched } = this.state;
+  return (
+    <div className="container">
+      <header>
+        <SearchSection onSearch={updateSearchResults} />
+        <Button
+          className="error-button"
+          onClick={throwError}
+          disabled={loading}
+        >
+          Throw Error
+        </Button>
+      </header>
 
-    return (
-      <div className="container">
-        <div className="top-section">
-          <Input
-            type="text"
-            value={searchTerm}
-            placeholder="Select animal"
-            onChange={this.handleSearchInputChange}
-            onKeyPress={this.handleKeyPress}
-          ></Input>
-
-          <Button
-            className="search-button"
-            onClick={this.handleSearchClick}
-            disabled={loading}
-          >
-            Search
-          </Button>
-
-          <Button
-            className="error-button"
-            onClick={this.throwError}
-            disabled={loading}
-          >
-            Throw Error
-          </Button>
-        </div>
-        <div className="bottom-section">
-          {loading && searched && <Loader />}
-          {error && <Notification>Error: {error.message}</Notification>}
-          {animals.length === 0 && !loading && !error && searched && (
-            <Notification>Nothing found</Notification>
-          )}
-          {animals.map((result) => (
-            <div className="card" key={result.uid}>
-              <h3>{result.name}</h3>
-              <div className="description">
-                {Object.entries(result).map(([key, value]) => (
-                  <p key={key}>
-                    <span>{key}:</span> {value.toString()}
-                  </p>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
+      <ResultSection
+        loading={loading}
+        error={error}
+        animals={animals}
+        searched={searched}
+      />
+    </div>
+  );
+};
 
 export default SearchPage;
