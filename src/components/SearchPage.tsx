@@ -10,6 +10,7 @@ import Button from './UI/button/Button';
 import { getPageCount, getPagesArray } from '../utils/getPageCount';
 import Pagination from './UI/pagination/Pagination';
 import Select from './UI/select/Select';
+import { useNavigate } from 'react-router-dom';
 
 const SearchPage = () => {
   const [animals, setAnimals] = useState([]);
@@ -20,6 +21,7 @@ const SearchPage = () => {
   const [totalElements, setTotalElements] = useState(0);
   const pagesArray = getPagesArray(getPageCount(totalElements, pageSize));
   const [selectedPage, setSelectedPage] = useState(0);
+  const navigate = useNavigate();
 
   const updateSearchResults = useCallback(
     async (term: string, pageNumber: number = 0) => {
@@ -64,6 +66,7 @@ const SearchPage = () => {
     const selectedPage =
       Number((event.target as HTMLButtonElement).textContent) - 1;
     setSelectedPage(selectedPage);
+    navigate(`animals?page=${selectedPage + 1}`);
   };
 
   return (
@@ -81,7 +84,10 @@ const SearchPage = () => {
 
       <Select
         value={pageSize}
-        onChange={(value: number) => setPageSize(value)}
+        onChange={(value: number) => {
+          setPageSize(value);
+          setSelectedPage(0);
+        }}
         defaultValue="Number of elements per page"
         options={[
           { value: 5, name: '5' },
@@ -103,6 +109,7 @@ const SearchPage = () => {
         error={error}
         animals={animals}
         searched={searched}
+        selectedPage={selectedPage}
       />
     </div>
   );

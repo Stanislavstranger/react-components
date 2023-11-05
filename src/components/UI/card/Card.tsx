@@ -3,20 +3,18 @@ import classes from './Card.module.css';
 import { Animals } from '../../../models';
 
 interface CardProps {
-  result: Animals;
+  animal: Animals;
+  onCardClick: (animal: Animals) => void;
 }
 
-const Card: React.FC<CardProps> = ({ result }) => {
+const Card: React.FC<CardProps> = ({ animal, onCardClick }) => {
+  const handleClick = () => {
+    onCardClick(animal);
+  };
+
   return (
-    <div className={classes.card} key={result.uid}>
-      <h3 className={classes.title}>{result.name}</h3>
-      <div className={classes.description}>
-        {Object.entries(result).map(([key, value]) => (
-          <p key={key}>
-            <span>{key}:</span> {value.toString()}
-          </p>
-        ))}
-      </div>
+    <div className={classes.card} key={animal.uid} onClick={handleClick}>
+      <h3 className={classes.title}>{animal.name}</h3>
     </div>
   );
 };

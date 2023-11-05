@@ -3,10 +3,13 @@ import Card from '../card/Card';
 
 interface CardListProps {
   props: Animals[];
+  onCardClick: (animal: Animals) => void;
 }
 
-const CardList: React.FC<CardListProps> = ({ props }) => {
-  return props.map((result) => <Card result={result} key={result.uid}></Card>);
+const CardList: React.FC<CardListProps> = ({ props, onCardClick }) => {
+  return props.map((result) => (
+    <Card animal={result} key={result.uid} onCardClick={onCardClick}></Card>
+  ));
 };
 
 export default CardList;

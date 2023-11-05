@@ -14,7 +14,6 @@ const Pagination: React.FC<PaginationProps> = ({
   loading,
   selectedPage,
 }) => {
-  console.log(selectedPage);
   return (
     <div style={{ marginBottom: '10px' }} className="buttonPage_container">
       {pagesArray.map((pageItem) => (
