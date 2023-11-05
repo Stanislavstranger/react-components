@@ -12,3 +12,15 @@ header {
   align-items: flex-start;
   gap: 10px;
 }
+
+.buttonPage_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 60%;
+  gap: 3px;
+}
+
+.buttonPage_container button {
+  padding: 2px 6px;
+}

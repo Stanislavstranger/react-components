@@ -31,3 +31,7 @@ button:disabled {
   cursor: not-allowed;
   border: 1px solid #ccc;
 }
+
+button.active {
+  background: #fe9850;
+}

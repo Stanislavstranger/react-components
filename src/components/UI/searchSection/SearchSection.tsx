@@ -5,9 +5,10 @@ import classes from './SearchSection.module.css';
 
 interface SearchSectionProps {
   onSearch: (term: string) => void;
+  loading: boolean;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({ onSearch, loading }) => {
   const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem('searchTerm') || ''
   );
@@ -36,7 +37,9 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
         onChange={handleSearchInputChange}
         onKeyPress={handleKeyPress}
       />
-      <Button onClick={handleSearchClick}>Search</Button>
+      <Button onClick={handleSearchClick} disabled={loading}>
+        Search
+      </Button>
     </div>
   );
 };
