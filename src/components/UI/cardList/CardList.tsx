@@ -1,13 +1,15 @@
+import { useSearch } from '../../../context/SearchContext';
 import { Animals } from '../../../models';
 import Card from '../card/Card';
 
 interface CardListProps {
-  props: Animals[];
   onCardClick: (animal: Animals) => void;
 }
 
-const CardList: React.FC<CardListProps> = ({ props, onCardClick }) => {
-  return props.map((result) => (
+const CardList: React.FC<CardListProps> = ({ onCardClick }) => {
+  const { animals } = useSearch();
+  console.log(animals)
+  return animals.map((result) => (
     <Card animal={result} key={result.uid} onCardClick={onCardClick}></Card>
   ));
 };

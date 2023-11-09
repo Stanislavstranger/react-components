@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Card.module.css';
 import { Animals } from '../../../models';
+import { useSearch } from '../../../context/SearchContext';
 
 interface CardProps {
   animal: Animals;
@@ -8,8 +9,10 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ animal, onCardClick }) => {
+  const { setSelectedAnimal } = useSearch();
   const handleClick = () => {
     onCardClick(animal);
+    setSelectedAnimal(animal);
   };
 
   return (

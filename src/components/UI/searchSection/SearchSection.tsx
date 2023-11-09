@@ -1,7 +1,8 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import classes from './SearchSection.module.css';
+import { useSearch } from '../../../context/SearchContext';
 
 interface SearchSectionProps {
   onSearch: (term: string) => void;
@@ -9,9 +10,7 @@ interface SearchSectionProps {
 }
 
 const SearchSection: React.FC<SearchSectionProps> = ({ onSearch, loading }) => {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('searchTerm') || ''
-  );
+  const { searchTerm, setSearchTerm } = useSearch();
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);

@@ -1,17 +1,13 @@
-import React from 'react';
-import { Animals } from '../../../models';
 import classes from './CardDetails.module.css';
+import { useSearch } from '../../../context/SearchContext';
 
-interface CardDetailsProps {
-  animal: Animals;
-}
-
-const CardDetails: React.FC<CardDetailsProps> = ({ animal }) => {
+const CardDetails = () => {
+  const { selectedAnimal } = useSearch();
   return (
     <div className="card-details">
-      <h3 className={classes.title}>{animal.name}</h3>
+      <h3 className={classes.title}>{selectedAnimal.name}</h3>
       <div className={classes.description}>
-        {Object.entries(animal).map(([key, value]) => (
+        {Object.entries(selectedAnimal).map(([key, value]) => (
           <p key={key}>
             <span>{key}:</span> {value.toString()}
           </p>
