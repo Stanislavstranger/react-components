@@ -50,7 +50,7 @@ const ResultSection: React.FC<ResultSectionProps> = ({
 
   return (
     <div className={classes.bottom_section}>
-      {loading && searched && <Loader />}
+      {loading && searched && <Loader data-testid="loader"/>}
       {loadings && searched && <Loader />}
       {error && <Notification>Error: {error.message}</Notification>}
       {animals.length === 0 && !loading && !error && searched && (
