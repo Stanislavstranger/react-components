@@ -16,7 +16,12 @@ const Card: React.FC<CardProps> = ({ animal, onCardClick }) => {
   };
 
   return (
-    <div className={classes.card} key={animal.uid} onClick={handleClick}>
+    <div
+      className={classes.card}
+      key={animal.uid}
+      onClick={handleClick}
+      data-testid="card-element"
+    >
       <h3 className={classes.title}>{animal.name}</h3>
     </div>
   );

@@ -8,7 +8,11 @@ interface CardListProps {
 
 const CardList: React.FC<CardListProps> = ({ onCardClick }) => {
   const { animals } = useSearch();
-  console.log(animals)
+
+  if (animals.length === 0) {
+    return <div>No cards found.</div>;
+  }
+
   return animals.map((result) => (
     <Card animal={result} key={result.uid} onCardClick={onCardClick}></Card>
   ));
