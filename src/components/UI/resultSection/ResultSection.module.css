@@ -1,0 +1,33 @@
+.bottom_section {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+  z-index: 1;
+}
+
+.card_container {
+  width: 60vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.card_titles {
+  flex: 0 0 45vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card_description {
+  flex: 0 0 40%;
+  align-self: start;
+}
