@@ -2,7 +2,8 @@ import { ChangeEvent } from 'react';
 import Input from '../input/Input';
 import Button from '../button/Button';
 import classes from './SearchSection.module.css';
-import { useSearch } from '../../../context/SearchContext';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { searchSlice } from '../../../store/reducers/SearchSlice';
 
 interface SearchSectionProps {
   onSearch: (term: string) => void;
@@ -10,10 +11,12 @@ interface SearchSectionProps {
 }
 
 const SearchSection: React.FC<SearchSectionProps> = ({ onSearch, loading }) => {
-  const { searchTerm, setSearchTerm } = useSearch();
+  const { searchTerm } = useAppSelector((state) => state.searchReducer);
+  const { change } = searchSlice.actions;
+  const dispatch = useAppDispatch();
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    dispatch(change(event.target.value));
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -25,6 +28,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch, loading }) => {
   const handleSearchClick = () => {
     onSearch(searchTerm);
     localStorage.setItem('searchTerm', searchTerm.trim());
+    dispatch(change(searchTerm.trim()));
   };
 
   return (

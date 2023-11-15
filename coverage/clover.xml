@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699828153270" clover="3.2.0">
-  <project timestamp="1699828153271" name="All files">
-    <metrics statements="204" coveredstatements="198" conditionals="19" coveredconditionals="17" methods="13" coveredmethods="12" elements="236" coveredelements="227" complexity="0" loc="204" ncloc="204" packages="8" files="8" classes="8"/>
+<coverage generated="1699964523895" clover="3.2.0">
+  <project timestamp="1699964523895" name="All files">
+    <metrics statements="200" coveredstatements="194" conditionals="19" coveredconditionals="17" methods="13" coveredmethods="12" elements="232" coveredelements="223" complexity="0" loc="200" ncloc="200" packages="8" files="8" classes="8"/>
     <package name="components.UI.button">
       <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="Button.tsx" path="D:\RS-School\react-vite-ts\src\components\UI\button\Button.tsx">
@@ -162,18 +162,14 @@
       </file>
     </package>
     <package name="components.pages">
-      <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="NotFoundPage.tsx" path="D:\RS-School\react-vite-ts\src\components\pages\NotFoundPage.tsx">
-        <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
       </file>
     </package>
     <package name="context">

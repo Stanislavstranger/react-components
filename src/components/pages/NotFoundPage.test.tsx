@@ -15,5 +15,4 @@ describe('10. 404 Page component', () => {
     const notFoundPageElement = screen.getByTestId('not-found-page');
     expect(notFoundPageElement).toBeInTheDocument();
   });
-
 });

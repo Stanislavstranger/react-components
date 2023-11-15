@@ -1,4 +1,4 @@
-import { useSearch } from '../../../context/SearchContext';
+import { useAppSelector } from '../../../hooks/redux';
 import { Animals } from '../../../models';
 import Card from '../card/Card';
 
@@ -7,7 +7,7 @@ interface CardListProps {
 }
 
 const CardList: React.FC<CardListProps> = ({ onCardClick }) => {
-  const { animals } = useSearch();
+  const { animals } = useAppSelector((state) => state.itemsReducer);
 
   if (animals.length === 0) {
     return <div>No cards found.</div>;

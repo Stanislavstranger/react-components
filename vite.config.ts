@@ -12,7 +12,7 @@ export default defineConfig({
     css: true,
     coverage: {
       provider: 'v8',
-      reportOnFailure: true
+      reportOnFailure: true,
     },
   },
 });

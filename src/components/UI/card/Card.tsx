@@ -1,7 +1,8 @@
 import React from 'react';
 import classes from './Card.module.css';
 import { Animals } from '../../../models';
-import { useSearch } from '../../../context/SearchContext';
+import { itemsSlice } from '../../../store/reducers/ItemsSlice';
+import { useAppDispatch } from '../../../hooks/redux';
 
 interface CardProps {
   animal: Animals;
@@ -9,10 +10,11 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ animal, onCardClick }) => {
-  const { setSelectedAnimal } = useSearch();
+  const { changeItem } = itemsSlice.actions;
+  const dispatch = useAppDispatch();
   const handleClick = () => {
     onCardClick(animal);
-    setSelectedAnimal(animal);
+    dispatch(changeItem(animal))
   };
 
   return (

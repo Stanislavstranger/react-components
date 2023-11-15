@@ -11,7 +11,8 @@ import { getPageCount, getPagesArray } from '../utils/getPageCount';
 import Pagination from './UI/pagination/Pagination';
 import Select from './UI/select/Select';
 import { useNavigate } from 'react-router-dom';
-import { useSearch } from '../context/SearchContext';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { itemsSlice } from '../store/reducers/ItemsSlice';
 
 const SearchPage = () => {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,9 @@ const SearchPage = () => {
   const pagesArray = getPagesArray(getPageCount(totalElements, pageSize));
   const [selectedPage, setSelectedPage] = useState(0);
   const navigate = useNavigate();
-  const { searchTerm, setAnimals } = useSearch();
+  const { searchTerm } = useAppSelector((state) => state.searchReducer);
+  const { changeItems } = itemsSlice.actions;
+  const dispatch = useAppDispatch();
 
   const updateSearchResults = useCallback(
     async (term: string, pageNumber: number = 0) => {
@@ -37,7 +40,7 @@ const SearchPage = () => {
         } else {
           animalsData = await searchAllAnimals(pageNumber, pageSize);
         }
-        setAnimals(animalsData.animals);
+        dispatch(changeItems(animalsData.animals))
         setTotalElements(animalsData.page.totalElements);
       } catch (error) {
         setError(error as Error);
@@ -45,7 +48,8 @@ const SearchPage = () => {
         setLoading(false);
       }
     },
-    [pageSize, setAnimals]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pageSize]
   );
 
   useEffect(() => {
@@ -53,6 +57,7 @@ const SearchPage = () => {
       await updateSearchResults(searchTerm, selectedPage);
     };
     updateResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPage, pageSize, updateSearchResults]);
 
   const throwError = () => {

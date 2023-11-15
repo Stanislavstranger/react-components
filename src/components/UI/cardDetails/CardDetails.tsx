@@ -1,8 +1,8 @@
 import classes from './CardDetails.module.css';
-import { useSearch } from '../../../context/SearchContext';
+import { useAppSelector } from '../../../hooks/redux';
 
 const CardDetails = () => {
-  const { selectedAnimal } = useSearch();
+  const { selectedAnimal } = useAppSelector((state) => state.itemsReducer);
   return (
     <div className="card-details">
       <h3 className={classes.title}>{selectedAnimal.name}</h3>
