@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = ({ animal, onCardClick }) => {
   const dispatch = useAppDispatch();
   const handleClick = () => {
     onCardClick(animal);
-    dispatch(changeItem(animal))
+    dispatch(changeItem(animal));
   };
 
   return (

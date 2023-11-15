@@ -7,12 +7,12 @@ import { searchSlice } from '../../../store/reducers/SearchSlice';
 
 interface SearchSectionProps {
   onSearch: (term: string) => void;
-  loading: boolean;
 }
 
-const SearchSection: React.FC<SearchSectionProps> = ({ onSearch, loading }) => {
+const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
   const { searchTerm } = useAppSelector((state) => state.searchReducer);
   const { change } = searchSlice.actions;
+  const { loading } = useAppSelector((state) => state.loadingReducer);
   const dispatch = useAppDispatch();
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {

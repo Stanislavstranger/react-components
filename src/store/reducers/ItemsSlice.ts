@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Animals } from "../../models";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Animals } from '../../models';
 
 interface ItemsState {
   animals: Animals[];
@@ -16,11 +16,11 @@ const initialState: ItemsState = {
     feline: false,
     name: '',
     uid: '',
-  }
-}
+  },
+};
 
 export const itemsSlice = createSlice({
-  name: "items",
+  name: 'items',
   initialState,
   reducers: {
     changeItems(state, action: PayloadAction<Animals[]>) {
@@ -28,9 +28,8 @@ export const itemsSlice = createSlice({
     },
     changeItem(state, action: PayloadAction<Animals>) {
       state.selectedAnimal = action.payload;
-    }
-  }
-}
-)
+    },
+  },
+});
 
-export default itemsSlice.reducer
+export default itemsSlice.reducer;

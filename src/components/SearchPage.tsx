@@ -13,9 +13,9 @@ import Select from './UI/select/Select';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { itemsSlice } from '../store/reducers/ItemsSlice';
+import { loadingSlice } from '../store/reducers/LoadingSlice';
 
 const SearchPage = () => {
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [searched, setSearched] = useState(true);
   const [pageSize, setPageSize] = useState(50);
@@ -25,11 +25,13 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const { searchTerm } = useAppSelector((state) => state.searchReducer);
   const { changeItems } = itemsSlice.actions;
+  const { loading } = useAppSelector((state) => state.loadingReducer);
+  const { changeLoading } = loadingSlice.actions;
   const dispatch = useAppDispatch();
 
   const updateSearchResults = useCallback(
     async (term: string, pageNumber: number = 0) => {
-      setLoading(true);
+      dispatch(changeLoading(true));
       setError(null);
       setSearched(true);
 
@@ -40,12 +42,12 @@ const SearchPage = () => {
         } else {
           animalsData = await searchAllAnimals(pageNumber, pageSize);
         }
-        dispatch(changeItems(animalsData.animals))
+        dispatch(changeItems(animalsData.animals));
         setTotalElements(animalsData.page.totalElements);
       } catch (error) {
         setError(error as Error);
       } finally {
-        setLoading(false);
+        dispatch(changeLoading(false));
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,7 +77,7 @@ const SearchPage = () => {
   return (
     <div className="container">
       <header>
-        <SearchSection onSearch={updateSearchResults} loading={loading} />
+        <SearchSection onSearch={updateSearchResults} />
         <Button
           className="error-button"
           onClick={throwError}
@@ -103,12 +105,10 @@ const SearchPage = () => {
       <Pagination
         selectPage={selectPage}
         pagesArray={pagesArray}
-        loading={loading}
         selectedPage={selectedPage}
       ></Pagination>
 
       <ResultSection
-        loading={loading}
         error={error}
         searched={searched}
         selectedPage={selectedPage}
