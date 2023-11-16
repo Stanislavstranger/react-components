@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-/* import { searchAnimalsByName } from '../services/LoadingDataService'; */
 import './SearchPage.css';
 import SearchSection from './UI/searchSection/SearchSection';
 import ResultSection from './UI/resultSection/ResultSection';
@@ -54,7 +53,7 @@ const SearchPage = () => {
       try {
         let animalsData;
         if (term !== '') {
-          dispatch(changeLoading(true))
+          dispatch(changeLoading(true));
           searchAnimalsByName({ term, pageNumber, pageSize })
             .unwrap()
             .then((data) => {

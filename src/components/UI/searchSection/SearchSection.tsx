@@ -10,7 +10,9 @@ interface SearchSectionProps {
 }
 
 const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
-  const { searchTerm: reduxSearchTerm } = useAppSelector((state) => state.searchReducer);
+  const { searchTerm: reduxSearchTerm } = useAppSelector(
+    (state) => state.searchReducer
+  );
   const { change } = searchSlice.actions;
   const { loading } = useAppSelector((state) => state.loadingReducer);
   const dispatch = useAppDispatch();

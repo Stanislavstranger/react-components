@@ -19,13 +19,13 @@ export interface Animals {
 
 export interface Data {
   page: {
-    pageNumber: number,
-    pageSize: number,
-    numberOfElements: number,
-    totalElements: number,
-    totalPages: number,
-    firstPage: boolean,
-    lastPage: boolean
+    pageNumber: number;
+    pageSize: number;
+    numberOfElements: number;
+    totalElements: number;
+    totalPages: number;
+    firstPage: boolean;
+    lastPage: boolean;
   };
   animals: Animals[];
   sort: object;

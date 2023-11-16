@@ -60,6 +60,10 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts, tsx}": []
+    "src/**/*.{ts, tsx}": [
+      "npm run lint",
+      "npm run lint:fix",
+      "npm run format:fix"
+    ]
   }
 }

@@ -6,11 +6,11 @@ import Notification from '../notification/Notification';
 import CardDetails from '../cardDetails/CardDetails';
 import classes from './ResultSection.module.css';
 import Modal from '../modal/Modal';
-import { searchAnimalsByName } from '../../../services/LoadingDataService';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { itemsSlice } from '../../../store/reducers/ItemsSlice';
 import { loadingSlice } from '../../../store/reducers/LoadingSlice';
+import { animalsAPI } from '../../../services/AnimalsService';
 
 interface ResultSectionProps {
   error: Error | null;
@@ -32,6 +32,7 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   const { loading } = useAppSelector((state) => state.loadingReducer);
   const { changeLoading } = loadingSlice.actions;
   const dispatch = useAppDispatch();
+  const [searchAnimalsByName] = animalsAPI.useSearchAnimalsByNameMutation();
 
   useEffect(() => {
     if (!modal) {
@@ -42,8 +43,17 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   const handleCardClick = async (animal: Animals) => {
     dispatch(changeLoading(true));
     try {
-      const data = await searchAnimalsByName(animal.name);
-      dispatch(changeItem(data.animals[0]));
+      /* const data = await searchAnimalsByName(animal.name); */
+      let animalsData;
+      searchAnimalsByName({ term: animal.name })
+        .unwrap()
+        .then((data) => {
+          animalsData = data;
+          dispatch(changeItem(animalsData.animals[0]));
+        })
+        .catch(() => {
+          throw Error;
+        });
       navigate(`./animals?page=${selectedPage + 1}&details=${animal.uid}`);
       setModal(true);
     } catch (error) {

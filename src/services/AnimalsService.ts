@@ -22,7 +22,7 @@ export const animalsAPI = createApi({
 
     searchAnimalsByName: build.mutation<
       Data,
-      { term: string, pageNumber: number; pageSize: number }
+      { term: string; pageNumber?: number; pageSize?: number }
     >({
       query: ({ term = '', pageNumber = 0, pageSize = 50 }) => ({
         url: '',
