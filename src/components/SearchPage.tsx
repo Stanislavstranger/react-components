@@ -1,8 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import {
-  searchAllAnimals,
-  searchAnimalsByName,
-} from '../services/LoadingDataService';
+/* import { searchAnimalsByName } from '../services/LoadingDataService'; */
 import './SearchPage.css';
 import SearchSection from './UI/searchSection/SearchSection';
 import ResultSection from './UI/resultSection/ResultSection';
@@ -14,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { itemsSlice } from '../store/reducers/ItemsSlice';
 import { loadingSlice } from '../store/reducers/LoadingSlice';
+import { animalsAPI } from '../services/AnimalsService';
 
 const SearchPage = () => {
   const [error, setError] = useState<Error | null>(null);
@@ -29,21 +27,51 @@ const SearchPage = () => {
   const { changeLoading } = loadingSlice.actions;
   const dispatch = useAppDispatch();
 
+  const {
+    data: animals,
+    isLoading,
+    isError,
+  } = animalsAPI.useFetchAllAnimalsQuery({
+    pageNumber: selectedPage,
+    pageSize,
+  });
+
+  const [searchAnimalsByName] = animalsAPI.useSearchAnimalsByNameMutation();
+
+  useEffect(() => {
+    if (!isLoading && !isError && animals) {
+      updateSearchResults(searchTerm, selectedPage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animals]);
+
   const updateSearchResults = useCallback(
     async (term: string, pageNumber: number = 0) => {
-      dispatch(changeLoading(true));
+      dispatch(changeLoading(loading));
       setError(null);
       setSearched(true);
 
       try {
         let animalsData;
         if (term !== '') {
-          animalsData = await searchAnimalsByName(term, pageNumber, pageSize);
+          dispatch(changeLoading(true))
+          searchAnimalsByName({ term, pageNumber, pageSize })
+            .unwrap()
+            .then((data) => {
+              animalsData = data;
+              dispatch(changeItems(animalsData.animals));
+              setTotalElements(animalsData.page.totalElements);
+            })
+            .catch((error) => {
+              setError(error as Error);
+            });
         } else {
-          animalsData = await searchAllAnimals(pageNumber, pageSize);
+          animalsData = animals;
         }
-        dispatch(changeItems(animalsData.animals));
-        setTotalElements(animalsData.page.totalElements);
+        if (animalsData) {
+          dispatch(changeItems(animalsData.animals));
+          setTotalElements(animalsData.page.totalElements);
+        }
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -51,16 +79,8 @@ const SearchPage = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pageSize]
+    [animals, pageSize, selectedPage]
   );
-
-  useEffect(() => {
-    const updateResults = async () => {
-      await updateSearchResults(searchTerm, selectedPage);
-    };
-    updateResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPage, pageSize, updateSearchResults]);
 
   const throwError = () => {
     const error = new Error('This is a test error');

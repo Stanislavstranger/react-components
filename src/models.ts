@@ -16,3 +16,17 @@ export interface Animals {
   name: string;
   uid: string;
 }
+
+export interface Data {
+  page: {
+    pageNumber: number,
+    pageSize: number,
+    numberOfElements: number,
+    totalElements: number,
+    totalPages: number,
+    firstPage: boolean,
+    lastPage: boolean
+  };
+  animals: Animals[];
+  sort: object;
+}

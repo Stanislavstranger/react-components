@@ -10,7 +10,7 @@ interface SearchSectionProps {
 }
 
 const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
-  const { searchTerm } = useAppSelector((state) => state.searchReducer);
+  const { searchTerm: reduxSearchTerm } = useAppSelector((state) => state.searchReducer);
   const { change } = searchSlice.actions;
   const { loading } = useAppSelector((state) => state.loadingReducer);
   const dispatch = useAppDispatch();
@@ -26,16 +26,21 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
   };
 
   const handleSearchClick = () => {
-    onSearch(searchTerm);
-    localStorage.setItem('searchTerm', searchTerm.trim());
-    dispatch(change(searchTerm.trim()));
+    const trimmedSearchTerm = reduxSearchTerm.trim();
+    const storedSearchTerm = localStorage.getItem('searchTerm')?.trim() || '';
+
+    if (trimmedSearchTerm !== storedSearchTerm) {
+      onSearch(trimmedSearchTerm);
+      localStorage.setItem('searchTerm', trimmedSearchTerm);
+      dispatch(change(trimmedSearchTerm));
+    }
   };
 
   return (
     <div className={classes.top_section}>
       <Input
         type="text"
-        value={searchTerm}
+        value={reduxSearchTerm}
         placeholder="Select animal"
         onChange={handleSearchInputChange}
         onKeyPress={handleKeyPress}
