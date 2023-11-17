@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import searchReducer from './reducers/SearchSlice';
 import itemsReducer from './reducers/ItemsSlice';
-import loadingReducer from './reducers/LoadingSlice';
+import loadingReducer from './reducers/loadingSlice';
 import { animalsAPI } from '../services/AnimalsService';
 
 const rootReducer = combineReducers({

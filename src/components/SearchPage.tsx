@@ -9,20 +9,20 @@ import Select from './UI/select/Select';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { itemsSlice } from '../store/reducers/ItemsSlice';
-import { loadingSlice } from '../store/reducers/LoadingSlice';
+import { loadingSlice } from '../store/reducers/loadingSlice';
 import { animalsAPI } from '../services/AnimalsService';
 
 const SearchPage = () => {
   const [error, setError] = useState<Error | null>(null);
-  const [searched, setSearched] = useState(true);
+  const [searched, setSearched] = useState(false);
   const [pageSize, setPageSize] = useState(50);
   const [totalElements, setTotalElements] = useState(0);
   const pagesArray = getPagesArray(getPageCount(totalElements, pageSize));
   const [selectedPage, setSelectedPage] = useState(0);
   const navigate = useNavigate();
   const { searchTerm } = useAppSelector((state) => state.searchReducer);
-  const { changeItems } = itemsSlice.actions;
   const { loading } = useAppSelector((state) => state.loadingReducer);
+  const { changeItems } = itemsSlice.actions;
   const { changeLoading } = loadingSlice.actions;
   const dispatch = useAppDispatch();
 
@@ -35,37 +35,35 @@ const SearchPage = () => {
     pageSize,
   });
 
-  const [searchAnimalsByName] = animalsAPI.useSearchAnimalsByNameMutation();
+  const [searchAnimalsByName, { isLoading: searchLoading }] =
+    animalsAPI.useSearchAnimalsByNameMutation();
 
   useEffect(() => {
-    if (!isLoading && !isError && animals) {
+    dispatch(changeLoading(searchLoading || isLoading));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, isLoading, searchLoading, selectedPage]);
+
+  useEffect(() => {
+    if (!isLoading && !searchLoading && !isError) {
       updateSearchResults(searchTerm, selectedPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [animals]);
+  }, [animals, isError, selectedPage]);
 
   const updateSearchResults = useCallback(
     async (term: string, pageNumber: number = 0) => {
-      dispatch(changeLoading(loading));
       setError(null);
-      setSearched(true);
-
       try {
         let animalsData;
         if (term !== '') {
-          dispatch(changeLoading(true));
-          searchAnimalsByName({ term, pageNumber, pageSize })
-            .unwrap()
-            .then((data) => {
-              animalsData = data;
-              dispatch(changeItems(animalsData.animals));
-              setTotalElements(animalsData.page.totalElements);
-            })
-            .catch((error) => {
-              setError(error as Error);
-            });
+          animalsData = await searchAnimalsByName({
+            term,
+            pageNumber,
+            pageSize,
+          }).unwrap();
         } else {
           animalsData = animals;
+          setSearched(!!animalsData!.animals.length);
         }
         if (animalsData) {
           dispatch(changeItems(animalsData.animals));
@@ -78,7 +76,7 @@ const SearchPage = () => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [animals, pageSize, selectedPage]
+    [animals, pageSize]
   );
 
   const throwError = () => {

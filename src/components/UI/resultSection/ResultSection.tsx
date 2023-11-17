@@ -9,7 +9,7 @@ import Modal from '../modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { itemsSlice } from '../../../store/reducers/ItemsSlice';
-import { loadingSlice } from '../../../store/reducers/LoadingSlice';
+import { loadingSlice } from '../../../store/reducers/loadingSlice';
 import { animalsAPI } from '../../../services/AnimalsService';
 
 interface ResultSectionProps {
@@ -32,18 +32,23 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   const { loading } = useAppSelector((state) => state.loadingReducer);
   const { changeLoading } = loadingSlice.actions;
   const dispatch = useAppDispatch();
-  const [searchAnimalsByName] = animalsAPI.useSearchAnimalsByNameMutation();
+  const [searchAnimalsByName, { isLoading: searchLoading }] =
+    animalsAPI.useSearchAnimalsByNameMutation();
 
   useEffect(() => {
     if (!modal) {
       navigate(`./animals?page=${selectedPage + 1}`);
     }
-  }, [modal, navigate, selectedPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modal, navigate]);
+
+  useEffect(() => {
+    dispatch(changeLoading(searchLoading));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, searchLoading]);
 
   const handleCardClick = async (animal: Animals) => {
-    dispatch(changeLoading(true));
     try {
-      /* const data = await searchAnimalsByName(animal.name); */
       let animalsData;
       searchAnimalsByName({ term: animal.name })
         .unwrap()
@@ -65,9 +70,9 @@ const ResultSection: React.FC<ResultSectionProps> = ({
 
   return (
     <div className={classes.bottom_section}>
-      {loading && searched && <Loader data-testid="loader" />}
+      {loading && <Loader data-testid="loader" />}
       {error && <Notification>Error: {error.message}</Notification>}
-      {animals.length === 0 && !loading && !error && searched && (
+      {animals.length === 0 && !loading && !error && !searched && (
         <Notification>Nothing found</Notification>
       )}
       <div className={classes.card_container}>
