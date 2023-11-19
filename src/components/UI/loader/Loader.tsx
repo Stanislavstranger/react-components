@@ -4,7 +4,7 @@ import imgShip from '../../../assets/ship.png';
 const Loader = () => {
   return (
     <div className={classes.ship_container}>
-      <img className={classes.ship} src={imgShip}></img>
+      <img className={classes.ship} src={imgShip} alt="loading_ship"></img>
     </div>
   );
 };
