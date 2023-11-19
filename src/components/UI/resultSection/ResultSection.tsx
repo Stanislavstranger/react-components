@@ -20,12 +20,11 @@ interface ResultSectionProps {
 
 const ResultSection: React.FC<ResultSectionProps> = ({
   error,
-  searched,
   selectedPage,
 }) => {
   const [modal, setModal] = useState(false);
   const navigate = useNavigate();
-  const { animals, selectedAnimal } = useAppSelector(
+  const { selectedAnimal } = useAppSelector(
     (state) => state.itemsReducer
   );
   const { changeItem } = itemsSlice.actions;
@@ -72,9 +71,6 @@ const ResultSection: React.FC<ResultSectionProps> = ({
     <div className={classes.bottom_section}>
       {loading && <Loader data-testid="loader" />}
       {error && <Notification>Error: {error.message}</Notification>}
-      {animals.length === 0 && !loading && !error && !searched && (
-        <Notification>Nothing found</Notification>
-      )}
       <div className={classes.card_container}>
         <div className={classes.card_titles}>
           <CardList onCardClick={handleCardClick} />

@@ -1,69 +1,78 @@
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import Card from './Card';
-import * as SearchContextModule from '../../../context/SearchContext';
+import { vi } from 'vitest';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 
-vi.mock('../../../context/SearchContext', () => ({
-  ...vi.importActual('../../../context/SearchContext'),
-  useSearch: vi.fn(),
-}));
+const mockStore = configureStore([]);
+const store = mockStore({});
+
+const animal = {
+  uid: 'ANMA0000264633',
+  name: 'Abalone',
+  earthAnimal: true,
+  earthInsect: false,
+  avian: false,
+  canine: false,
+  feline: false,
+}
+
+const server = setupServer(
+  http.get('?name=Abalone', () => {
+    return HttpResponse.json(animal);
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => {
+  server.resetHandlers();
+  store.clearActions();
+});
+afterAll(() => server.close());
 
 describe('6. Card Component', () => {
-  const mockAnimal = {
-    uid: 'ANMA0000264633',
-    name: 'Abalone',
-    earthAnimal: true,
-    earthInsect: false,
-    avian: false,
-    canine: false,
-    feline: false,
-  };
+  it('renders relevant card data', async () => {
+    render(
+      <Provider store={store}>
+        <Card
+          animal={animal}
+          onCardClick={() => {}}
+        />
+      </Provider>
+    );
 
-  it('renders relevant card data', () => {
-    vi.spyOn(SearchContextModule, 'useSearch').mockImplementation(() => ({
-      searchTerm: '',
-      setSearchTerm: vi.fn(),
-      animals: [mockAnimal],
-      setAnimals: vi.fn(),
-      selectedAnimal: mockAnimal,
-      setSelectedAnimal: vi.fn(),
-    }));
-
-    render(<Card animal={mockAnimal} onCardClick={() => {}} />);
-
-    expect(screen.getByText('Abalone')).toBeInTheDocument();
+    expect(await screen.findByText('Abalone')).toBeInTheDocument();
   });
 
-  it('opens a detailed card component on card click', () => {
+  it('opens a detailed card component on card click', async () => {
     const onCardClickMock = vi.fn();
-    const setSelectedAnimal = vi.fn();
-    SearchContextModule.useSearch.mockReturnValue({
-      setSelectedAnimal,
-    });
-
-    render(<Card animal={mockAnimal} onCardClick={onCardClickMock} />);
+    render(
+      <Provider store={store}>
+        <Card
+          animal={animal}
+          onCardClick={onCardClickMock}
+        />
+      </Provider>
+    );
 
     fireEvent.click(screen.getByTestId('card-element'));
 
-    expect(onCardClickMock).toHaveBeenCalledWith(mockAnimal);
-
-    expect(setSelectedAnimal).toHaveBeenCalledWith(mockAnimal);
+    expect(onCardClickMock).toHaveBeenCalledWith(animal);
   });
 
   it('triggers an additional API call on card click', async () => {
     const mockFetchDetailedInfo = vi.fn(() => Promise.resolve({}));
-
-    vi.spyOn(SearchContextModule, 'useSearch').mockImplementation(() => ({
-      searchTerm: '',
-      setSearchTerm: vi.fn(),
-      animals: [mockAnimal],
-      setAnimals: vi.fn(),
-      selectedAnimal: mockAnimal,
-      setSelectedAnimal: vi.fn(),
-    }));
-
-    render(<Card animal={mockAnimal} onCardClick={mockFetchDetailedInfo} />);
+    render(
+      <Provider store={store}>
+        <Card
+          animal={animal}
+          onCardClick={mockFetchDetailedInfo}
+        />
+      </Provider>
+    );
 
     await userEvent.click(screen.getByTestId('card-element'));
 
