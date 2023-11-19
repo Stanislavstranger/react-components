@@ -18,7 +18,7 @@ const animal = {
   avian: false,
   canine: false,
   feline: false,
-}
+};
 
 const server = setupServer(
   http.get('?name=Abalone', () => {
@@ -37,10 +37,7 @@ describe('6. Card Component', () => {
   it('renders relevant card data', async () => {
     render(
       <Provider store={store}>
-        <Card
-          animal={animal}
-          onCardClick={() => {}}
-        />
+        <Card animal={animal} onCardClick={() => {}} />
       </Provider>
     );
 
@@ -51,10 +48,7 @@ describe('6. Card Component', () => {
     const onCardClickMock = vi.fn();
     render(
       <Provider store={store}>
-        <Card
-          animal={animal}
-          onCardClick={onCardClickMock}
-        />
+        <Card animal={animal} onCardClick={onCardClickMock} />
       </Provider>
     );
 
@@ -67,10 +61,7 @@ describe('6. Card Component', () => {
     const mockFetchDetailedInfo = vi.fn(() => Promise.resolve({}));
     render(
       <Provider store={store}>
-        <Card
-          animal={animal}
-          onCardClick={mockFetchDetailedInfo}
-        />
+        <Card animal={animal} onCardClick={mockFetchDetailedInfo} />
       </Provider>
     );
 

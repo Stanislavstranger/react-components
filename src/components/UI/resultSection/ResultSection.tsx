@@ -24,9 +24,7 @@ const ResultSection: React.FC<ResultSectionProps> = ({
 }) => {
   const [modal, setModal] = useState(false);
   const navigate = useNavigate();
-  const { selectedAnimal } = useAppSelector(
-    (state) => state.itemsReducer
-  );
+  const { selectedAnimal } = useAppSelector((state) => state.itemsReducer);
   const { changeItem } = itemsSlice.actions;
   const { loading } = useAppSelector((state) => state.loadingReducer);
   const { changeLoading } = loadingSlice.actions;
