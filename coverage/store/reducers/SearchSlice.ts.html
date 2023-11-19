@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Code coverage report for store/reducers/ItemsSlice.ts</title>
+    <title>Code coverage report for store/reducers/SearchSlice.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
       <div class="pad1">
         <h1>
           <a href="../../index.html">All files</a> /
-          <a href="index.html">store/reducers</a> ItemsSlice.ts
+          <a href="index.html">store/reducers</a> SearchSlice.ts
         </h1>
         <div class="clearfix">
           <div class="fl pad1y space-right2">
-            <span class="strong">88.57% </span>
+            <span class="strong">90.47% </span>
             <span class="quiet">Statements</span>
-            <span class="fraction">31/35</span>
+            <span class="fraction">19/21</span>
           </div>
 
           <div class="fl pad1y space-right2">
@@ -37,13 +37,13 @@
           <div class="fl pad1y space-right2">
             <span class="strong">0% </span>
             <span class="quiet">Functions</span>
-            <span class="fraction">0/2</span>
+            <span class="fraction">0/1</span>
           </div>
 
           <div class="fl pad1y space-right2">
-            <span class="strong">88.57% </span>
+            <span class="strong">90.47% </span>
             <span class="quiet">Lines</span>
-            <span class="fraction">31/35</span>
+            <span class="fraction">19/21</span>
           </div>
         </div>
         <p class="quiet">
@@ -80,21 +80,7 @@
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L22'></a><a href='#L22'>22</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -108,20 +94,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -130,40 +102,26 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Animals } from '../../models';
 &nbsp;
-interface ItemsState {
-  animals: Animals[];
-  selectedAnimal: Animals;
+interface SearchState {
+  searchTerm: string;
 }
 &nbsp;
-const initialState: ItemsState = {
-  animals: [],
-  selectedAnimal: {
-    avian: false,
-    canine: false,
-    earthAnimal: false,
-    earthInsect: false,
-    feline: false,
-    name: '',
-    uid: '',
-  },
+const initialState: SearchState = {
+  searchTerm: localStorage.getItem('searchTerm') || '',
 };
 &nbsp;
-export const itemsSlice = createSlice({
-  name: 'items',
+export const searchSlice = createSlice({
+  name: 'search',
   initialState,
   reducers: {
-<span class="fstat-no" title="function not covered" >    changeItems(state, action: PayloadAction&lt;Animals[]&gt;) {</span>
-<span class="cstat-no" title="statement not covered" >      state.animals = action.payload;</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="fstat-no" title="function not covered" >    changeItem(state, action: PayloadAction&lt;Animals&gt;) {</span>
-<span class="cstat-no" title="statement not covered" >      state.selectedAnimal = action.payload;</span>
+<span class="fstat-no" title="function not covered" >    change(state, action: PayloadAction&lt;string&gt;) {</span>
+<span class="cstat-no" title="statement not covered" >      state.searchTerm = action.payload;</span>
 <span class="cstat-no" title="statement not covered" >    },</span>
   },
 });
 &nbsp;
-export default itemsSlice.reducer;
+export default searchSlice.reducer;
 &nbsp;</pre></td></tr></table></pre>
 
       <div class="push"></div>
