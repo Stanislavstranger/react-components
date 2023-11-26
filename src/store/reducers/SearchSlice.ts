@@ -5,7 +5,7 @@ interface SearchState {
 }
 
 const initialState: SearchState = {
-  searchTerm: localStorage.getItem('searchTerm') || '',
+  searchTerm: '',
 };
 
 export const searchSlice = createSlice({
@@ -15,7 +15,14 @@ export const searchSlice = createSlice({
     change(state, action: PayloadAction<string>) {
       state.searchTerm = action.payload;
     },
+    initializeFromLocalStorage(state) {
+      if (typeof window !== 'undefined') {
+        const savedSearchTerm = localStorage.getItem('searchTerm');
+        state.searchTerm = savedSearchTerm || '';
+      }
+    },
   },
 });
 
+export const { initializeFromLocalStorage, change } = searchSlice.actions;
 export default searchSlice.reducer;

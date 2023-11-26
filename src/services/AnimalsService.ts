@@ -9,7 +9,7 @@ export const animalsAPI = createApi({
   endpoints: (build) => ({
     fetchAllAnimals: build.query<
       Data,
-      { pageNumber: number; pageSize: number }
+      { pageNumber: number; pageSize?: number }
     >({
       query: ({ pageNumber = 0, pageSize = 50 }) => ({
         url: '',

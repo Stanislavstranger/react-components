@@ -1,20 +1,18 @@
+import { FC, PropsWithChildren } from 'react';
 import { useAppSelector } from '../../../hooks/redux';
 import { Animals } from '../../../models';
 import Card from '../card/Card';
+import NotFound from '../pageNotFound/PageNotFound';
 
-interface CardListProps {
-  onCardClick: (animal: Animals) => void;
-}
+const CardList: FC<PropsWithChildren<{ animals: Animals[] }>> = ({ animals }) => {
+  const { loading } = useAppSelector((state) => state.loadingReducer);
 
-const CardList: React.FC<CardListProps> = ({ onCardClick }) => {
-  const { animals } = useAppSelector((state) => state.itemsReducer);
-
-  if (animals.length === 0) {
-    return <div>No cards found.</div>;
+  if (animals.length === 0 && !loading) {
+    return <NotFound />;
   }
 
   return animals.map((result) => (
-    <Card animal={result} key={result.uid} onCardClick={onCardClick}></Card>
+    <Card animal={result} key={result.uid}></Card>
   ));
 };
 

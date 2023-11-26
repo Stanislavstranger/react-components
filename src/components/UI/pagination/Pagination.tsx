@@ -1,30 +1,28 @@
-import { MouseEventHandler } from 'react';
 import Button from '../button/Button';
-import { useAppSelector } from '../../../hooks/redux';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface PaginationProps {
-  selectPage: MouseEventHandler<HTMLButtonElement>;
   pagesArray: number[];
-  selectedPage: number;
+  pageSize: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  selectPage,
-  pagesArray,
-  selectedPage,
-}) => {
-  const { loading } = useAppSelector((state) => state.loadingReducer);
+const Pagination: React.FC<PaginationProps> = ({ pagesArray, pageSize }) => {
+  const router = useRouter();
+  const { query } = router;
+
   return (
     <div style={{ marginBottom: '10px' }} className="buttonPage_container">
       {pagesArray.map((pageItem) => (
-        <Button
-          key={pageItem}
-          onClick={selectPage}
-          disabled={loading}
-          active={pageItem === selectedPage + 1}
-        >
-          {pageItem}
-        </Button>
+        <Link key={pageItem} href={`/page/${pageItem}-${pageSize}`}>
+          <Button
+            active={
+              String(pageItem) === String(query.id?.toString().split('-')[0])
+            }
+          >
+            {pageItem}
+          </Button>
+        </Link>
       ))}
     </div>
   );

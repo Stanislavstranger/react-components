@@ -4,18 +4,15 @@ import Button from '../button/Button';
 import classes from './SearchSection.module.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { searchSlice } from '../../../store/reducers/SearchSlice';
+import { useRouter } from 'next/router';
 
-interface SearchSectionProps {
-  onSearch: (term: string) => void;
-}
-
-const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
+const SearchSection: React.FC<unknown> = () => {
   const { searchTerm: reduxSearchTerm } = useAppSelector(
     (state) => state.searchReducer
   );
   const { change } = searchSlice.actions;
-  const { loading } = useAppSelector((state) => state.loadingReducer);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(change(event.target.value));
@@ -29,13 +26,10 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
 
   const handleSearchClick = () => {
     const trimmedSearchTerm = reduxSearchTerm.trim();
-    const storedSearchTerm = localStorage.getItem('searchTerm')?.trim() || '';
-
-    if (trimmedSearchTerm !== storedSearchTerm) {
-      onSearch(trimmedSearchTerm);
-      localStorage.setItem('searchTerm', trimmedSearchTerm);
-      dispatch(change(trimmedSearchTerm));
-    }
+    localStorage.setItem('searchTerm', trimmedSearchTerm);
+    dispatch(change(trimmedSearchTerm));
+    console.log(trimmedSearchTerm)
+    router.push(`/page/1-50-${trimmedSearchTerm}`);
   };
 
   return (
@@ -47,9 +41,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
         onChange={handleSearchInputChange}
         onKeyPress={handleKeyPress}
       />
-      <Button onClick={handleSearchClick} disabled={loading}>
-        Search
-      </Button>
+      <Button onClick={handleSearchClick}>Search</Button>
     </div>
   );
 };
