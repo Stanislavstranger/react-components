@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren } from 'react';
-
 import { Animals } from '../../../models';
 import Card from '../card/Card';
 import NotFound from '../pageNotFound/PageNotFound';
@@ -19,11 +18,11 @@ const CardList: FC<PropsWithChildren<{ animals: Animals[] }>> = ({
   }
 
   return animals.map((result) => (
-    <Card
-      animal={result}
-      key={result.uid}
-      onClick={() => handleCardClick(result.name)}
-    ></Card>
+      <Card
+        animal={result}
+        key={result.uid}
+        onClick={() => handleCardClick(result.name)}
+      ></Card>
   ));
 };
 

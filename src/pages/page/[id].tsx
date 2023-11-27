@@ -13,7 +13,9 @@ const Pages: FC<PropsWithChildren<{ animals: Animals[] }>> = ({ animals }) => {
   return (
     <>
       <Layout title={`Page ${selectedPage}`}>
-        <CardList animals={animals} />
+        <div className="container_card">
+          <CardList animals={animals} />
+        </div>
       </Layout>
     </>
   );
@@ -43,7 +45,9 @@ export const getServerSideProps: GetServerSideProps<{
     };
   }
   const responsePost = await fetch(
-    `${BASE_URL}?name=${searchTerm}&pageNumber=${+pageId - 1}&pageSize=${pageSize}`,
+    `${BASE_URL}?name=${searchTerm}&pageNumber=${
+      +pageId - 1
+    }&pageSize=${pageSize}`,
     {
       method: 'POST',
       headers: {
