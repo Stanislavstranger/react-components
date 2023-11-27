@@ -32,32 +32,27 @@ export const getServerSideProps: GetServerSideProps<{
 
   const { id } = params;
   const [pageId, pageSize, searchTerm] = id.toString().split('-');
-  const URL = 'https://stapi.co/api/v1/rest/animal/search'
+  const BASE_URL = 'https://stapi.co/api/v1/rest/animal/search';
   if (searchTerm == '') {
     const responseGet = await fetch(
-      `${URL}?&pageNumber=${
-        +pageId - 1
-      }&pageSize=${pageSize}`
+      `${BASE_URL}?&pageNumber=${+pageId - 1}&pageSize=${pageSize}`
     );
     const { animals } = await responseGet.json();
     return {
       props: { animals },
     };
-  } else {
-    const responsePost = await fetch(
-      `${URL}?name=${searchTerm}&pageNumber=${
-        +pageId - 1
-      }&pageSize=${pageSize}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    );
-    const { animals } = await responsePost.json();
-    return {
-      props: { animals },
-    };
   }
+  const responsePost = await fetch(
+    `${BASE_URL}?name=${searchTerm}&pageNumber=${+pageId - 1}&pageSize=${pageSize}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+  const { animals } = await responsePost.json();
+  return {
+    props: { animals },
+  };
 };

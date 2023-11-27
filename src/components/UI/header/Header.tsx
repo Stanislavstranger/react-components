@@ -6,32 +6,47 @@ import Button from '../button/Button';
 import Select from '../select/Select';
 import Pagination from '../pagination/Pagination';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '../../../hooks/redux';
 
 const Header: FC<PropsWithChildren<unknown>> = () => {
   const [error, setError] = useState<Error | null>(null);
   const [pageSize, setPageSize] = useState(50);
   const [totalElements, setTotalElements] = useState(0);
   let pagesArray = getPagesArray(getPageCount(totalElements, pageSize));
+  const { searchTerm: reduxSearchTerm } = useAppSelector(
+    (state) => state.searchReducer
+  );
+
+  const handleSearch = async (searchTerm: string) => {
+    try {
+      const response = await fetch(
+        `https://stapi.co/api/v1/rest/animal/search?name=${searchTerm}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+      const { page } = await response.json();
+      setTotalElements(page.totalElements);
+    } catch (error) {
+      throwError();
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`https://stapi.co/api/v1/rest/animal/search`);
-        const { page } = await response.json();
-        setTotalElements(page.totalElements);
-      } catch (error) {
-        throwError
-      }
-    };
-  
-    fetchData();
+    if (reduxSearchTerm !== undefined) {
+      handleSearch(String(localStorage.getItem('searchTerm')));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{
-    setError(null)
+  useEffect(() => {
+    setError(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     pagesArray = getPagesArray(getPageCount(totalElements, pageSize));
-  },[pageSize, totalElements])
+  }, [pageSize, totalElements]);
 
   const throwError = () => {
     const error = new Error('This is a test error');
@@ -41,9 +56,9 @@ const Header: FC<PropsWithChildren<unknown>> = () => {
   const router = useRouter();
 
   const changePagination = (value: number) => {
-    setPageSize(value);   
+    setPageSize(value);
     router.push(`/page/${0}-${value}`);
-  }
+  };
 
   const closeNotification = () => {
     setError(null);
@@ -53,12 +68,9 @@ const Header: FC<PropsWithChildren<unknown>> = () => {
     <>
       <div className="container">
         <header>
-          <SearchSection />
+          <SearchSection onSearch={handleSearch} />
 
-          <Button
-            className="error-button"
-            onClick={throwError}
-          >
+          <Button className="error-button" onClick={throwError}>
             Throw Error
           </Button>
         </header>
@@ -66,7 +78,7 @@ const Header: FC<PropsWithChildren<unknown>> = () => {
         <Select
           value={pageSize}
           onChange={(value: number) => {
-            changePagination(value)
+            changePagination(value);
           }}
           defaultValue="Number of elements per page"
           options={[
@@ -78,7 +90,11 @@ const Header: FC<PropsWithChildren<unknown>> = () => {
         />
 
         <Pagination pagesArray={pagesArray} pageSize={pageSize}></Pagination>
-        {error && <Notification onClose={closeNotification}>Error: {error.message}</Notification>}
+        {error && (
+          <Notification onClose={closeNotification}>
+            Error: {error.message}
+          </Notification>
+        )}
       </div>
     </>
   );
