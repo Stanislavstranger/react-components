@@ -1,7 +1,6 @@
-import { http, HttpResponse } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Card from './Card';
 import { vi } from 'vitest';
 import { Provider } from 'react-redux';
@@ -37,7 +36,7 @@ describe('6. Card Component', () => {
   it('renders relevant card data', async () => {
     render(
       <Provider store={store}>
-        <Card animal={animal} onCardClick={() => {}} />
+        <Card animal={animal} onClick={() => {}} />
       </Provider>
     );
 
@@ -45,27 +44,27 @@ describe('6. Card Component', () => {
   });
 
   it('opens a detailed card component on card click', async () => {
-    const onCardClickMock = vi.fn();
+    const mockFetchDetailedInfo = vi.fn();
     render(
       <Provider store={store}>
-        <Card animal={animal} onCardClick={onCardClickMock} />
+        <Card animal={animal} onClick={mockFetchDetailedInfo} />
       </Provider>
     );
 
     fireEvent.click(screen.getByTestId('card-element'));
 
-    expect(onCardClickMock).toHaveBeenCalledWith(animal);
+    expect(mockFetchDetailedInfo).toHaveBeenCalledWith(animal.uid);
   });
 
   it('triggers an additional API call on card click', async () => {
     const mockFetchDetailedInfo = vi.fn(() => Promise.resolve({}));
     render(
       <Provider store={store}>
-        <Card animal={animal} onCardClick={mockFetchDetailedInfo} />
+        <Card animal={animal} onClick={mockFetchDetailedInfo} />
       </Provider>
     );
 
-    await userEvent.click(screen.getByTestId('card-element'));
+    await fireEvent.click(screen.getByTestId('card-element'));
 
     await waitFor(() => {
       expect(mockFetchDetailedInfo).toHaveBeenCalledTimes(1);
