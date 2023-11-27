@@ -57,7 +57,9 @@ const Header: FC<PropsWithChildren<unknown>> = () => {
 
   const changePagination = (value: number) => {
     setPageSize(value);
-    router.push(`/page/${0}-${value}`);
+    router.push(
+      `/page/${0}-${value}-${String(localStorage.getItem('searchTerm'))}`
+    );
   };
 
   const closeNotification = () => {
