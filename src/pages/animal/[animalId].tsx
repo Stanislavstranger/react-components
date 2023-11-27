@@ -3,11 +3,15 @@ import { useRouter } from 'next/router';
 import classes from '../../components/UI/cardDetails/CardDetails.module.css';
 import { Animals } from '../../models';
 import { GetServerSideProps } from 'next';
+import Button from '../../components/UI/button/Button';
 
 const AnimalDetails: FC<PropsWithChildren<{ animal: Animals }>> = (animal) => {
   const router = useRouter();
   const { animalId } = router.query;
-  console.log(animal);
+
+  const goBack = () => {
+    window.history.back();
+  };
 
   return (
     <div className={classes.card_details}>
@@ -21,6 +25,7 @@ const AnimalDetails: FC<PropsWithChildren<{ animal: Animals }>> = (animal) => {
           ))}
         </div>
       }
+      <Button onClick={goBack}>Go back</Button>
     </div>
   );
 };
