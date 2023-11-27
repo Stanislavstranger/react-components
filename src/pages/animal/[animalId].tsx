@@ -4,6 +4,7 @@ import classes from '../../components/UI/cardDetails/CardDetails.module.css';
 import { Animals } from '../../models';
 import { GetServerSideProps } from 'next';
 import Button from '../../components/UI/button/Button';
+import Meta from '../../components/seo/Meta';
 
 const AnimalDetails: FC<PropsWithChildren<{ animal: Animals }>> = (animal) => {
   const router = useRouter();
@@ -14,19 +15,21 @@ const AnimalDetails: FC<PropsWithChildren<{ animal: Animals }>> = (animal) => {
   };
 
   return (
-    <div className={classes.card_details}>
-      <h3 className={classes.title}>{animalId}</h3>
-      {
-        <div className={classes.description}>
-          {Object.entries(animal).map(([key, value]) => (
-            <p key={key}>
-              <span>{key}:</span> {value!.toString()}
-            </p>
-          ))}
-        </div>
-      }
-      <Button onClick={goBack}>Go back</Button>
-    </div>
+    <Meta title={`${animalId}`}>
+      <div className={classes.card_details}>
+        <h3 className={classes.title}>{animalId}</h3>
+        {
+          <div className={classes.description}>
+            {Object.entries(animal).map(([key, value]) => (
+              <p key={key}>
+                <span>{key}:</span> {value!.toString()}
+              </p>
+            ))}
+          </div>
+        }
+        <Button onClick={goBack}>Go back</Button>
+      </div>
+    </Meta>
   );
 };
 
