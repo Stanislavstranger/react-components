@@ -1,18 +1,29 @@
 import { FC, PropsWithChildren } from 'react';
-import { useAppSelector } from '../../../hooks/redux';
+
 import { Animals } from '../../../models';
 import Card from '../card/Card';
 import NotFound from '../pageNotFound/PageNotFound';
+import { useRouter } from 'next/router';
 
-const CardList: FC<PropsWithChildren<{ animals: Animals[] }>> = ({ animals }) => {
-  const { loading } = useAppSelector((state) => state.loadingReducer);
+const CardList: FC<PropsWithChildren<{ animals: Animals[] }>> = ({
+  animals,
+}) => {
+  const router = useRouter();
 
-  if (animals.length === 0 && !loading) {
+  const handleCardClick = (animalId: string) => {
+    router.push(`/animal/${animalId}`);
+  };
+
+  if (animals.length === 0) {
     return <NotFound />;
   }
 
   return animals.map((result) => (
-    <Card animal={result} key={result.uid}></Card>
+    <Card
+      animal={result}
+      key={result.uid}
+      onClick={() => handleCardClick(result.name)}
+    ></Card>
   ));
 };
 

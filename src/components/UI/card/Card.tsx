@@ -6,13 +6,15 @@ import { useAppDispatch } from '../../../hooks/redux';
 
 interface CardProps {
   animal: Animals;
+  onClick: (animalId: string) => void;
 }
 
-const Card: React.FC<CardProps> = ({ animal }) => {
+const Card: React.FC<CardProps> = ({ animal, onClick }) => {
   const { changeItem } = itemsSlice.actions;
   const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(changeItem(animal));
+    onClick(animal.uid);
   };
 
   return (

@@ -46,11 +46,6 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(reduxSearchTerm);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className={classes.top_section}>
       <Input
