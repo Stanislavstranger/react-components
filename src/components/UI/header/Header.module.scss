@@ -1,0 +1,10 @@
+.header {
+  background: var(--bg-header-color);
+}
+
+.list {
+  display: flex;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: center;
+}

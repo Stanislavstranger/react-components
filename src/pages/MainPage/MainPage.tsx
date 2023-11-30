@@ -1,7 +1,7 @@
-const MainPage = () => {
-  return (
-    <div>MainPage</div>
-  )
-}
+import Main from '../../components/UI/main/Main';
 
-export default MainPage
+const MainPage = () => {
+  return <Main />;
+};
+
+export default MainPage;

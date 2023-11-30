@@ -1,25 +1,23 @@
-import { Link, Route, Routes } from 'react-router-dom';
-import UncontrolledForm from './pages/UncontrolledForm/UncontrolledForm';
-import ControlledForm from './pages/ControlledForm/ControlledForm';
+import { Route, Routes } from 'react-router-dom';
+import UncontrolledPage from './pages/UncontrolledPage/UncontrolledPage';
+import ControlledPage from './pages/ControlledPage/ControlledPage';
 import MainPage from './pages/MainPage/MainPage';
 import { Suspense } from 'react';
 import useTheme from './theme/useTheme';
+import Header from './components/UI/header/Header';
 
 function App() {
-  const {theme, toggleTheme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <div className={`app ${theme}`}>
-      <Link to={'/'}>Main page</Link>
-      <Link to={'/uncontrolled-form'}>Uncontrolled form</Link>
-      <Link to={'/controlled-form'}>Controlled form</Link>
-      <button onClick={toggleTheme}>{theme}</button>
+      <Header />
 
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path={'/'} element={<MainPage />} />
-          <Route path={'/uncontrolled-form'} element={<UncontrolledForm />} />
-          <Route path={'/controlled-form'} element={<ControlledForm />} />
+          <Route path={'/uncontrolled-page'} element={<UncontrolledPage />} />
+          <Route path={'/controlled-page'} element={<ControlledPage />} />
         </Routes>
       </Suspense>
     </div>

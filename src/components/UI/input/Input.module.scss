@@ -1,0 +1,12 @@
+.input {
+  background-color: var(--bg-header-color);
+  font-size: var(--font-m);
+  color: var(--secondary-color);
+  border-radius: 15px;
+  padding: 4px 15px;
+  margin: 8px 0;
+}
+
+.input:focus {
+  box-shadow: 0 0 10px 5px rgba(75, 74, 74, 0.3);
+}

@@ -4,10 +4,24 @@
 @import './themes/dark.scss';
 
 .app {
-  font: var(--font-m);
-
-  background: var(--bg-color);
-  color: var(--primary-color);
-
   min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  font: var(--font-m);
+  color: var(--primary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: content-box;
+}
+
+a {
+  font: var(--font-m);
+  color: var(--primary-color);
 }

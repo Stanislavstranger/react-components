@@ -1,0 +1,38 @@
+.button {
+  margin: 0 auto;
+  color: rgb(75, 74, 74);
+  display: inline-block;
+  width: 90%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  border-radius: 100px;
+  background: #f1cdb3;
+  margin: 15px 0;
+}
+
+@media screen and (max-width: 860px) {
+  button {
+    font-size: 12px;
+  }
+}
+
+.button_active {
+  background: #f1cdb3;
+  color: #292929;
+}
+
+.button_active:hover {
+  background: #fddcc4;
+  border: none;
+}
+
+.button_inactive {
+  cursor: auto;
+  color: #cdcdcd;
+  border: 2px solid #cdcdcd;
+  pointer-events: none;
+}
