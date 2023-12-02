@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
     [true],
     'Accept Terms & Conditions is required'
   ),
-  picture: Yup.mixed().test(
+  picture: Yup.mixed<FileList>().test(
     'fileFormat',
     'Unsupported file format',
     (value) => {
