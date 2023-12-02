@@ -1,7 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Russo+One:regular);
 
 :root {
-  --font-family-main: 'Russo One', "Helvetica Neue", Helvetica, sans-serif;
+  --font-family-main: 'Russo One', 'Helvetica Neue', Helvetica, sans-serif;
+
+  --font-size-s: 12px;
+  --font-line-s: 20px;
+  --font-s: var(--font-size-s) / var(--font-line-s) var(--font-family-main);
 
   --font-size-m: 16px;
   --font-line-m: 24px;

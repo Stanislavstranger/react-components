@@ -5,6 +5,7 @@ import MainPage from './pages/MainPage/MainPage';
 import { Suspense } from 'react';
 import useTheme from './theme/useTheme';
 import Header from './components/UI/header/Header';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 function App() {
   const { theme } = useTheme();
@@ -18,6 +19,7 @@ function App() {
           <Route path={'/'} element={<MainPage />} />
           <Route path={'/uncontrolled-page'} element={<UncontrolledPage />} />
           <Route path={'/controlled-page'} element={<ControlledPage />} />
+          <Route path={'/*'} element={<PageNotFound />} />
         </Routes>
       </Suspense>
     </div>

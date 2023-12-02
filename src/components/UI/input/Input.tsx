@@ -1,9 +1,9 @@
 import { FC, HTMLInputTypeAttribute, useRef } from 'react';
-import classes from './Input.module.scss'
+import classes from './Input.module.scss';
 
 export interface InputProps {
   label: string;
-  type?: HTMLInputTypeAttribute | undefined
+  type?: HTMLInputTypeAttribute | undefined;
   name?: string | undefined;
 }
 

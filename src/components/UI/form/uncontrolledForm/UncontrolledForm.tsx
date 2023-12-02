@@ -21,7 +21,7 @@ const UncontrolledForm = () => {
     <div className="container">
       <h3>Uncontrolled Component</h3>
       <form onSubmit={handleSubmit}>
-        <Input label={'Name'} type={'text'} name={'name'}/>
+        <Input label={'Name'} type={'text'} name={'name'} />
         <Input label={'Age'} type={'text'} name={'name'} />
         <Input label={'Password'} type={'password'} name={'name'} />
         <Input label={'Password'} type={'checkbox'} name={'name'} />

@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
-import classes from './Button.module.scss'
+import classes from './Button.module.scss';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({ children, active, ...props }) => {
     >
       {children}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
