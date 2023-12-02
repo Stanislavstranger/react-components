@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Button from '../../components/UI/button/Button';
 import validationSchema from '../../utils/validationSchema';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { FormValues } from '../../models/Interface';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { FormValuesSlice } from '../../store/reducers/FormValuesSlice';
 
 const ControlledPage = () => {
@@ -14,9 +14,10 @@ const ControlledPage = () => {
     handleSubmit,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(validationSchema),
+    mode: 'onChange',
   });
 
   const handleInputChange = (
@@ -43,6 +44,21 @@ const ControlledPage = () => {
     navigate('/');
   };
 
+  const { countries } = useAppSelector((state) => state.CountryReducer);
+  const [filteredCountries, setFilteredCountries] = useState<string[]>([]);
+
+  function suggestCountry(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    const filtered = countries.filter((country) =>
+      country.toLowerCase().startsWith(value.toLowerCase())
+    );
+
+    setFilteredCountries(filtered);
+
+    setValue(name as keyof FormValues, value);
+    trigger(name as keyof FormValues);
+  }
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -55,6 +71,7 @@ const ControlledPage = () => {
               placeholder="Enter your name"
               {...register('name')}
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
           {errors.name && <span>{errors.name.message}</span>}
@@ -70,6 +87,7 @@ const ControlledPage = () => {
               placeholder="Enter your age"
               {...register('age')}
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
           {errors.age && <span>{errors.age.message}</span>}
@@ -83,6 +101,7 @@ const ControlledPage = () => {
               placeholder="Enter your email"
               {...register('email')}
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
           {errors.email && <span>{errors.email.message}</span>}
@@ -96,6 +115,7 @@ const ControlledPage = () => {
               placeholder="Enter your password"
               {...register('password')}
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
           {errors.password && <span>{errors.password.message}</span>}
@@ -109,6 +129,7 @@ const ControlledPage = () => {
               placeholder="Confirm your password"
               {...register('confirmPassword')}
               onChange={handleInputChange}
+              autoComplete="off"
             />
           </div>
           {errors.confirmPassword && (
@@ -162,15 +183,24 @@ const ControlledPage = () => {
           <div className="form-items">
             <label htmlFor="country">Country: </label>
             <input
+              list="countryList"
               placeholder="Enter your country"
               {...register('country')}
-              onChange={handleInputChange}
+              onChange={suggestCountry}
+              autoComplete="off"
             />
+            <datalist id="countryList">
+              {filteredCountries.map((country) => (
+                <option key={country} value={country} />
+              ))}
+            </datalist>
           </div>
           {errors.country && <span>{errors.country.message}</span>}
         </div>
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={!isValid}>
+          Submit
+        </Button>
       </form>
     </div>
   );

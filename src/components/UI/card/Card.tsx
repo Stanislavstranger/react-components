@@ -15,21 +15,28 @@ const Card = () => {
 
   return (
     <>
-      {formData && (
-        <div className={classes.card}>
+      <div className={classes.card}>
+        <h2>Data received from a controlled form</h2>
+        {formData && Object.keys(formData).length > 0 ? (
+          <>
+            <div className={classes.card_text}>
+              <h3>{formData.name}</h3>
+              <p>{formData.age}</p>
+              <p>{formData.email}</p>
+              <p>{formData.gender}</p>
+              <p>{String(formData.acceptTerms)}</p>
+              <p>{formData.country}</p>
+            </div>
+            {imageUrl && (
+              <img src={imageUrl} alt="Uploaded" style={{ width: '300px' }} />
+            )}
+          </>
+        ) : (
           <div className={classes.card_text}>
-            <h2>{formData.name}</h2>
-            <p>{formData.age}</p>
-            <p>{formData.email}</p>
-            <p>{formData.gender}</p>
-            <p>{String(formData.acceptTerms)}</p>
-            <p>{formData.country}</p>
+            <div>Not all data filled. Please fill in the form</div>
           </div>
-          {imageUrl && (
-            <img src={imageUrl} alt="Uploaded" style={{ width: '300px' }} />
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };

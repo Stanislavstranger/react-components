@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import countriesArray from '../data/countries';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -36,11 +37,22 @@ const validationSchema = Yup.object().shape({
       }
 
       const acceptedFormats = ['image/png', 'image/jpeg'];
+
       const file = value[0];
       return acceptedFormats.includes(file.type);
     }
   ),
-  country: Yup.string().required('Country is required'),
+  country: Yup.string()
+    .test('is-valid-country', 'Invalid country', function (value) {
+      const availableCountries = countriesArray;
+
+      if (value && !availableCountries.includes(value)) {
+        return false;
+      }
+
+      return true;
+    })
+    .required('Country is required'),
 });
 
 export default validationSchema;
