@@ -1,0 +1,99 @@
+@import './variables/global.scss';
+@import './reset.scss';
+@import './themes/normal.scss';
+@import './themes/dark.scss';
+
+.app {
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  font: var(--font-m);
+  color: var(--primary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: content-box;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font: var(--font-l);
+}
+
+form {
+  min-width: 715px;
+  margin-left: 20vw;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-list {
+  height: 55px;
+}
+
+.form-items {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+form span::before {
+  content: '⚠ ';
+}
+
+form span {
+  display: block;
+  font: var(--font-s);
+  color: var(--error-color);
+}
+
+label {
+  padding-right: 10px;
+}
+
+input {
+  background-color: var(--bg-header-color);
+  font-size: var(--font-m);
+  color: var(--secondary-color);
+  border-radius: 15px;
+  padding: 4px 15px;
+  margin: 2px;
+  width: 310px;
+}
+
+input[type='number'] {
+  width: 170px;
+}
+
+input[type='checkbox'] {
+  width: 20px;
+  height: 25px;
+}
+
+input:focus {
+  box-shadow: 0 0 10px 5px rgba(75, 74, 74, 0.3);
+}
+
+select {
+  background-color: var(--bg-header-color);
+  border-radius: 15px;
+  padding: 4px 15px;
+  font: var(--font-m);
+  color: var(--primary-color);
+}
+
+p.alarm {
+  color: var(--error-color);
+  max-width: 1300x;
+  margin: 0 auto 20px;
+}

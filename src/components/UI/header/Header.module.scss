@@ -1,0 +1,23 @@
+.header {
+  background: var(--bg-header-color);
+}
+
+.list {
+  display: flex;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  font: var(--font-m);
+  color: var(--primary-color);
+}
+
+.active {
+  color: #f1cdb3;
+}
+
+.active:hover {
+  color: #fddcc4;
+}

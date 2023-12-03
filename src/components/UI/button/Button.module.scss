@@ -1,0 +1,28 @@
+.button {
+  margin: 0 auto;
+  color: rgb(75, 74, 74);
+  display: inline-block;
+  width: 150px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  border-radius: 100px;
+  background: #f1cdb3;
+  margin: 15px 0;
+}
+
+.button:hover {
+  background: #fddcc4;
+  border: none;
+}
+
+.button:disabled {
+  cursor: auto;
+  color: #cdcdcd;
+  background: transparent;
+  border: 2px solid #cdcdcd;
+  pointer-events: none;
+}
