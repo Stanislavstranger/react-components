@@ -1,9 +1,5 @@
 import Button from '../../button/Button';
-import {
-  ChangeEvent,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { FormValuesSlice } from '../../../../store/reducers/FormValuesSlice';

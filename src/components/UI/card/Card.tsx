@@ -16,7 +16,7 @@ const Card = () => {
   return (
     <>
       <div className={classes.card}>
-        <h2>Data received from a controlled form</h2>
+        <h2>Data received from a form</h2>
         {formData && Object.keys(formData).length > 0 ? (
           <>
             <div className={classes.card_text}>
