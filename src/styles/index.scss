@@ -21,11 +21,6 @@
   box-sizing: content-box;
 }
 
-a {
-  font: var(--font-m);
-  color: var(--primary-color);
-}
-
 h2 {
   margin-bottom: 20px;
   font: var(--font-l);
@@ -36,7 +31,7 @@ form {
   margin-left: 20vw;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
+  padding-top: 30px;
   width: 100%;
   justify-content: center;
   align-items: flex-start;
@@ -95,4 +90,11 @@ select {
   padding: 4px 15px;
   font: var(--font-m);
   color: var(--primary-color);
+}
+
+p.alarm {
+  color: var(--error-color);
+  max-width: 1300x;
+  margin: 0 auto 20px;
+
 }

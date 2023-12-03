@@ -1,11 +1,11 @@
 export interface FormValues {
   name: string;
-  age: number;
+  age: number | string;
   email: string;
   password: string;
   confirmPassword: string;
   gender: string;
   acceptTerms?: boolean;
-  picture?: FileList;
+  picture?: FileList | null;
   country: string;
 }
